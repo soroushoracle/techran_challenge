@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { BinanceService } from './binance.service'
-import { BinanceController } from './binance.controller'
+import { BinanceController } from './controller/binance.controller'
 import { ConfigModule } from '@nestjs/config'
 
 @Module({
