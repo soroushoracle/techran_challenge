@@ -2,6 +2,7 @@ import { Body, Controller, Get, Put, UseInterceptors } from '@nestjs/common'
 import { TransformInterceptor } from 'src/common/transform.interceptor'
 import { BinanceService } from '../binance.service'
 import { SubmitIRRDto } from '../dto/submit-irr.dto'
+import Message from '../../common/lib/message'
 
 @Controller('binance')
 @UseInterceptors(TransformInterceptor)
@@ -15,6 +16,7 @@ export class BinanceController {
             data: {
                 rial: this.binanceService.getIRRPrice(),
             },
+            message: Message('rial.updated'),
         }
     }
 
