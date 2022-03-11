@@ -1,4 +1,4 @@
-import { Body, Controller, Put, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Get, Put, UseInterceptors } from '@nestjs/common'
 import { TransformInterceptor } from 'src/common/transform.interceptor'
 import { BinanceService } from './binance.service'
 import { SubmitIRRDto } from './dto/submit-irr.dto'
@@ -11,6 +11,16 @@ export class BinanceController {
     @Put('submit-irr')
     submitIRR(@Body() submitIRRDto: SubmitIRRDto) {
         this.binanceService.setIRRPrice(submitIRRDto)
+        return {
+            data: {
+                rial: this.binanceService.getIRRPrice(),
+            },
+        }
+    }
+
+    @Get('irr-price')
+    getIRRPrice() {
+        console.log('ss', this.binanceService.getIRRPrice())
         return {
             data: {
                 rial: this.binanceService.getIRRPrice(),
