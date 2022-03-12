@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, Query, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Get, Put, Query, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common'
 import { TransformInterceptor } from 'src/common/transform.interceptor'
 import { BinanceService } from '../binance.service'
 import { SubmitIRRDto } from '../dto/submit-irr.dto'
@@ -31,11 +31,11 @@ export class BinanceController {
     }
 
     @Get('token')
+    @UsePipes(new ValidationPipe({ transform: true }))
     async tokenList(@Query() tokenListDto: TokenListDto) {
-        const tokens = await this.binanceService.fetchAllTokenToIRR(tokenListDto)
         return {
             data: {
-                tokens,
+                tokens: await this.binanceService.findTokens(tokenListDto),
             },
         }
     }
