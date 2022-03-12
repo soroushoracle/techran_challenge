@@ -40,6 +40,14 @@ export class BinanceService {
         )
     }
 
+    async findTokens(filter: TokenListDto): Promise<PaginateResult<TokenDocument>> {
+        const { name, page, limit } = filter
+        return await this.tokenModel.paginate(name ? { symbol: { $regex: '.*' + name + '.*', $options: 'i' } } : {}, {
+            page,
+            limit,
+        })
+    }
+
     private calculateRialPrice(token: BinanceTokenApi) {
         return { ...token, price: Math.ceil(this.IRRPrice * Number(token.markPrice)) }
     }
