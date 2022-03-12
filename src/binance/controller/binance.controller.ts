@@ -4,9 +4,10 @@ import { BinanceService } from '../binance.service'
 import { SubmitIRRDto } from '../dto/submit-irr.dto'
 import Message from '../../common/lib/message'
 import { TokenListDto } from '../dto/token-list.dto'
+import { MorganInterceptor } from 'nest-morgan'
 
 @Controller('binance')
-@UseInterceptors(TransformInterceptor)
+@UseInterceptors(TransformInterceptor, MorganInterceptor('combined'))
 export class BinanceController {
     constructor(private binanceService: BinanceService) {}
 
