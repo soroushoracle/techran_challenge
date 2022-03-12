@@ -43,9 +43,10 @@ export class BinanceController {
     @Get('fetch-live-token')
     @UsePipes(new ValidationPipe({ transform: true, skipMissingProperties: true }))
     async fetchLiveTokenList(@Query() tokenListDto: TokenListDto) {
+        await this.binanceService.fetchAllTokenToIRR(tokenListDto)
         return {
             data: {
-                tokens: await this.binanceService.fetchAllTokenToIRR(tokenListDto),
+                tokens: await this.binanceService.findTokens(tokenListDto),
             },
             message: Message('tokens.updated'),
         }

@@ -32,13 +32,13 @@ export class BinanceService {
         this.IRRPrice = submitIRRDto.price
     }
 
-    async fetchAllTokenToIRR(filter: TokenListDto): Promise<PaginateResult<TokenDocument>> {
+    async fetchAllTokenToIRR(filter: TokenListDto): Promise<boolean> {
         const { name, page, limit } = filter
         const tokens = (await this.binanceApi.fetchAllToken()).filter((token) =>
             new RegExp(`.*${name}.*`, 'i').test(token.symbol),
         )
         Promise.all(tokens.map((token) => this.insertOrUpdateToken(this.calculateRialPrice(token))))
-        return this.findTokens(filter)
+        return true
     }
 
     async findTokens(filter: TokenListDto): Promise<PaginateResult<TokenDocument>> {
