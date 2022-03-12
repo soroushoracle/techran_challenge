@@ -7,6 +7,7 @@ import { SubmitIRRDto } from './dto/submit-irr.dto'
 import { TokenListDto } from './dto/token-list.dto'
 import { BinanceTokenApi } from './interface/binance-token-api.interface'
 import { Token, TokenDocument, TokenModel, TokenSchema } from './schema/token.schema'
+import { Cron } from '@nestjs/schedule'
 
 @Injectable()
 export class BinanceService {
@@ -72,5 +73,11 @@ export class BinanceService {
                 new: true,
             },
         )
+    }
+
+    @Cron('0 */5 * * * *')
+    async handleCron() {
+        console.log('Tokens updated!')
+        await this.fetchAllTokenToIRR({})
     }
 }
