@@ -1,14 +1,17 @@
-import { IsNumber, IsNumberString, IsOptional } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsInt, IsOptional } from 'class-validator'
 
 export class TokenListDto {
     @IsOptional()
     name?: string
 
     @IsOptional()
-    @IsNumberString(null, { message: 'صفحه باید از نوع عدد باشد' })
-    page: number = 1
+    @IsInt({ message: 'صفحه باید از نوع عدد باشد' })
+    @Type(() => Number)
+    page?: number = 1
 
     @IsOptional()
-    @IsNumberString(null, { message: 'محدودت باید از نوع عدد باشد' })
-    limit: number = 10
+    @IsInt({ message: 'محدودیت باید از نوع عدد باشد' })
+    @Type(() => Number)
+    limit?: number = 10
 }
