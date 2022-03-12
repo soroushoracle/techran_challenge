@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { Model } from 'mongoose'
+import { model, Model, PaginateResult } from 'mongoose'
 import { ConfigService } from '@nestjs/config'
 import { InjectModel } from '@nestjs/mongoose'
 import { BinanceApi } from './binance.api'
 import { SubmitIRRDto } from './dto/submit-irr.dto'
 import { TokenListDto } from './dto/token-list.dto'
 import { BinanceTokenApi } from './interface/binance-token-api.interface'
-import { Token, TokenDocument } from './schema/token.schema'
+import { Token, TokenDocument, TokenModel, TokenSchema } from './schema/token.schema'
 
 @Injectable()
 export class BinanceService {
@@ -15,7 +15,11 @@ export class BinanceService {
     constructor(
         private configService: ConfigService,
         private binanceApi: BinanceApi,
-        @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
+        @InjectModel(Token.name)
+        private tokenModel: TokenModel<TokenDocument> = model<TokenDocument>(
+            'TokenDocument',
+            TokenSchema,
+        ) as TokenModel<TokenDocument>,
     ) {
         this.IRRPrice = Number(configService.get('USDT_DEFAULT_PRICE'))
     }
