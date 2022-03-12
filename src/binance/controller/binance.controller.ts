@@ -39,4 +39,15 @@ export class BinanceController {
             },
         }
     }
+
+    @Get('fetch-live-token')
+    @UsePipes(new ValidationPipe({ transform: true, skipMissingProperties: true }))
+    async fetchLiveTokenList(@Query() tokenListDto: TokenListDto) {
+        return {
+            data: {
+                tokens: await this.binanceService.fetchAllTokenToIRR(tokenListDto),
+            },
+            message: Message('tokens.updated'),
+        }
+    }
 }

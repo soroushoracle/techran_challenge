@@ -8,6 +8,7 @@ const messages = {
 
 const attributes = {
     rial: 'قیمت ریال',
+    tokens: 'توکن‌ها با موفقیت بروز شدند',
 }
 
 export default function (string: string): string {
